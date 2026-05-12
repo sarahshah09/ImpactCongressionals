@@ -1,30 +1,20 @@
 {
     "AZ-01": [
-        {
-            "name": "Amish Shah",
-            "is_impact": true,
-            "coh": 0.0
-        }
+        { "name": "Amish Shah", "is_impact": true, "coh": 707100.0 },
+        { "name": "Jonathan Treble", "is_impact": false, "coh": 1620450.0 }
     ],
     "NJ-07": [
-        {
-            "name": "Tina Shah",
-            "is_impact": true,
-            "coh": 0.0
-        }
+        { "name": "Tina Shah", "is_impact": true, "coh": 412300.0 },
+        { "name": "Rebecca Bennett", "is_impact": false, "coh": 389100.0 }
     ],
     "NJ-12": [
-        {
-            "name": "Jay Vaingankar",
-            "is_impact": true,
-            "coh": 0.0
-        }
+        { "name": "Jay Vaingankar", "is_impact": true, "coh": 137771.0 },
+        { "name": "Dr. Adam Hamawy", "is_impact": false, "coh": 420550.0 }
+    ],
+    "FL-21": [
+        { "name": "Pia Dandiya", "is_impact": true, "coh": 1105000.0 }
     ],
     "NY-07": [
-        {
-            "name": "Vichal Kumar",
-            "is_impact": true,
-            "coh": 0.0
-        }
+        { "name": "Vichal Kumar", "is_impact": true, "coh": 85400.0 }
     ]
 }
