@@ -1,41 +1,66 @@
 async function loadData() {
     try {
-        // This looks for the data.json file you manually updated
         const response = await fetch('data.json');
         const data = await response.json();
         const container = document.getElementById('dashboard');
-        
-        // Clear the "Loading" message
         container.innerHTML = ''; 
 
         for (const [district, candidates] of Object.entries(data)) {
-            const card = document.createElement('div');
-            card.className = 'card';
+            const districtDiv = document.createElement('div');
+            districtDiv.className = 'district-card';
             
-            let candidateHtml = `<h2>District: ${district}</h2>`;
+            let html = `<h2>District: ${district}</h2>`;
             
             candidates.forEach(cand => {
-                // This creates the bar width based on $2M goal
-                const percentage = Math.min((cand.coh / 2000000) * 100, 100); 
-                candidateHtml += `
-                    <div class="candidate-row">
-                        <div class="name">
-                            <span>${cand.name} ${cand.is_impact ? '⭐' : ''}</span>
+                // Calculation: What % of money raised has been spent?
+                const burnRate = ((cand.spent / cand.raised) * 100).toFixed(1);
+                // Scaled for a $5M goal bar
+                const cohWidth = Math.min((cand.coh / 5000000) * 100, 100);
+
+                html += `
+                    <div class="candidate-block">
+                        <div class="header-row">
+                            <span class="name">${cand.name} ${cand.is_impact ? '⭐' : ''}</span>
+                            <span class="badge ${cand.is_impact ? 'badge-impact' : 'badge-rival'}">
+                                ${cand.is_impact ? 'Impact Target' : 'Primary Challenger'}
+                            </span>
                         </div>
-                        <div class="bar-container">
-                            <div class="bar ${cand.is_impact ? 'impact' : 'rival'}" style="width: ${percentage}%"></div>
+                        
+                        <div class="metrics-grid">
+                            <div class="metric-box">
+                                <span class="label">Total Raised</span>
+                                <span class="val">$${cand.raised.toLocaleString()}</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="label">Total Spent</span>
+                                <span class="val">$${cand.spent.toLocaleString()}</span>
+                            </div>
+                            <div class="metric-box">
+                                <span class="label">Cash on Hand</span>
+                                <span class="val" style="color: ${cand.is_impact ? '#38a169' : '#e53e3e'}">
+                                    $${cand.coh.toLocaleString()}
+                                </span>
+                            </div>
                         </div>
-                        <div class="amount">$${cand.coh.toLocaleString()}</div>
+
+                        <div class="progress-bar">
+                            <div class="fill" style="width: ${cohWidth}%; background: ${cand.is_impact ? '#38a169' : '#e53e3e'}"></div>
+                        </div>
+                        
+                        <div class="footer-info">
+                            <span>Burn Rate: ${burnRate}%</span>
+                            <span>As of ${cand.updated}</span>
+                        </div>
                     </div>
                 `;
             });
             
-            card.innerHTML = candidateHtml;
-            container.innerHTML += card.outerHTML;
+            districtDiv.innerHTML = html;
+            container.appendChild(districtDiv);
         }
-    } catch (error) {
-        console.error("Error loading data:", error);
-        document.getElementById('dashboard').innerHTML = "Check back soon for updated FEC data.";
+    } catch (e) {
+        console.error(e);
+        document.getElementById('dashboard').innerHTML = "Error connecting to data feed.";
     }
 }
 
