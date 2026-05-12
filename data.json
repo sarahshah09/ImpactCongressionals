@@ -22,7 +22,8 @@
     "NJ-07": [
         { "name": "Tina Shah", "is_impact": true, "raised": 1980347, "spent": 604043, "coh": 1376303, "updated": "3/31/26" },
         { "name": "Rebecca Bennett", "is_impact": false, "raised": 2656002, "spent": 1229607, "coh": 1426395, "updated": "3/31/26" },
-        { "name": "Michael Roth", "is_impact": false, "raised": 1165954, "spent": 439668, "coh": 726286, "updated": "3/31/26" }
+        { "name": "Michael Roth", "is_impact": false, "raised": 1165954, "spent": 439668, "coh": 726286, "updated": "3/31/26" },
+        { "name": "Brian Varela", "is_impact": false, "raised": 312500, "spent": 185000, "coh": 127500, "updated": "3/31/26" }
     ],
     "FL-21": [
         { "name": "Pia Dandiya", "is_impact": true, "raised": 1575117, "spent": 403470, "coh": 1171647, "updated": "3/31/26" },
