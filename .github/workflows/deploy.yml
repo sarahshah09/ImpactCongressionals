@@ -1,32 +1,37 @@
-name: Deploy to Pages
+name: Nightly FEC Update
+
 on:
-  push:
-    branches: ["main"]
-  workflow_run:
-    workflows: ["Nightly FEC Update"]
-    types: [completed]
-  workflow_dispatch:
+  schedule:
+    - cron: '0 4 * * *' # Runs at Midnight EST
+  workflow_dispatch: # Allows you to click "Run workflow" manually
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write # This gives the bot permission to save the data.json file
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install requests
+
+      - name: Run FEC Scraper
+        env:
+          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+        run: python scraper.py
+
+      - name: Commit and Push Data
+        run: |
+          git config --global user.name "FEC-Bot"
+          git config --global user.email "bot@impact.com"
+          git add data.json
+          # Only commit if the file actually changed
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update FEC data" && git push)
