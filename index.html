@@ -1,37 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Impact 5 Tracker</title> 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impact 5: 2026 FEC Tracker</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #f4f7f6; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { text-align: center; color: #2c3e50; }
+        .card { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .candidate-row { margin: 15px 0; }
+        .name { font-weight: bold; margin-bottom: 5px; display: flex; justify-content: space-between; }
+        .bar-container { background: #eee; height: 20px; border-radius: 10px; overflow: hidden; }
+        .bar { height: 100%; transition: width 1s ease-in-out; }
+        .impact { background: #27ae60; } /* Green for our candidates */
+        .rival { background: #e74c3c; }   /* Red for rivals */
+        .amount { font-size: 0.9em; color: #666; margin-top: 5px; }
+    </style>
 </head>
-<body class="bg-gray-100 p-8">
-    <h1 class="text-3xl font-bold mb-8">IA Impact 5: Primary Fundraising</h1>
-    <div id="dashboard" class="grid gap-6 md:grid-cols-2">Loading data...</div>
+<body>
+    <div class="container">
+        <h1>Impact 5 Dashboard</h1>
+        <div id="dashboard">Loading latest FEC filings...</div>
+    </div>
 
-    <script>
-        // This fetches the data.json file created by your scraper
-        fetch('/data.json')
-            .then(res => res.json())
-            .then(data => {
-                const container = document.getElementById('dashboard');
-                container.innerHTML = '';
-                
-                Object.keys(data).forEach(race => {
-                    const candidates = data[race];
-                    const card = document.createElement('div');
-                    card.className = "bg-white p-6 rounded-lg shadow";
-                    card.innerHTML = `<h2 class="text-xl font-bold border-b pb-2 mb-4">${race}</h2>`;
-                    
-                    candidates.forEach(c => {
-                        card.innerHTML += `
-                            <div class="flex justify-between py-1">
-                                <span>${c.name}</span>
-                                <span class="font-mono">$${c.cash_on_hand_end_period.toLocaleString()}</span>
-                            </div>`;
-                    });
-                    container.appendChild(card);
-                });
-            });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
