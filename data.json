@@ -7,13 +7,14 @@
     ],
     "NJ-07": [
         { "name": "Tina Shah", "is_impact": true, "coh": 412300.0 },
-        { "name": "Rebecca Bennett", "is_impact": false, "coh": 389100.0 },
-        { "name": "Sue Altman", "is_impact": false, "coh": 120500.0 }
+        { "name": "Rebecca Bennett", "is_impact": false, "coh": 389100.0 }
     ],
     "NJ-12": [
         { "name": "Jay Vaingankar", "is_impact": true, "coh": 137771.0 },
         { "name": "Dr. Adam Hamawy", "is_impact": false, "coh": 420550.0 },
-        { "name": "Daniel Khanshab", "is_impact": false, "coh": 25000.0 }
+        { "name": "Sue Altman", "is_impact": false, "coh": 515000.0 },
+        { "name": "Adrian Mapp", "is_impact": false, "coh": 85000.0 },
+        { "name": "Brad Cohen", "is_impact": false, "coh": 42000.0 }
     ],
     "FL-21": [
         { "name": "Pia Dandiya", "is_impact": true, "coh": 1105000.0 },
@@ -21,7 +22,8 @@
     ],
     "NY-07": [
         { "name": "Vichal Kumar", "is_impact": true, "coh": 85400.0 },
-        { "name": "Claire Valdez", "is_impact": false, "coh": 195000.0 },
-        { "name": "Nydia Velázquez (Incumbent)", "is_impact": false, "coh": 1100000.0 }
+        { "name": "Antonio Reynoso", "is_impact": false, "coh": 620000.0 },
+        { "name": "Julie Won", "is_impact": false, "coh": 245000.0 },
+        { "name": "Claire Valdez", "is_impact": false, "coh": 195000.0 }
     ]
 }
