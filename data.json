@@ -2,18 +2,18 @@
     "AZ-01": [
         { "name": "Amish Shah", "is_impact": true, "raised": 1290456, "spent": 675158, "coh": 707100, "updated": "3/31/26" },
         { "name": "Jonathan Treble", "is_impact": false, "raised": 2482935, "spent": 815876, "coh": 1667059, "updated": "3/31/26" },
-        { "name": "Marlene Galán-Woods", "is_impact": false, "raised": 1566625, "spent": 740817, "coh": 825807, "updated": "3/31/26" },
-        { "name": "Rick McCartney", "is_impact": false, "raised": 871281, "spent": 414383, "coh": 456898, "updated": "3/31/26" },
-        { "name": "John Trobough", "is_impact": false, "raised": 855298, "spent": 462100, "coh": 393198, "updated": "3/31/26" }
+        { "name": "Marlene Galán-Woods", "is_impact": false, "raised": 1566625, "spent": 740817, "coh": 825807, "updated": "3/31/26" }
     ],
     "NJ-12": [
         { "name": "Jay Vaingankar", "is_impact": true, "raised": 261350, "spent": 123578, "coh": 137772, "updated": "3/31/26" },
         { "name": "Dr. Adam Hamawy", "is_impact": false, "raised": 546965, "spent": 126859, "coh": 420106, "updated": "3/31/26" },
-        { "name": "Samuel Wang", "is_impact": false, "raised": 307107, "spent": 17896, "coh": 289211, "updated": "3/31/26" },
         { "name": "Susan Altman", "is_impact": false, "raised": 406375, "spent": 132878, "coh": 273497, "updated": "3/31/26" },
-        { "name": "Brad Cohen", "is_impact": false, "raised": 424371, "spent": 237079, "coh": 187292, "updated": "3/31/26" },
-        { "name": "Adrian Mapp", "is_impact": false, "raised": 369248, "spent": 206448, "coh": 162800, "updated": "3/31/26" },
-        { "name": "Squire Servance", "is_impact": false, "raised": 268556, "spent": 114997, "coh": 153558, "updated": "3/31/26" }
+        { "name": "Adrian Mapp", "is_impact": false, "raised": 369248, "spent": 206448, "coh": 162800, "updated": "3/31/26" }
+    ],
+    "FL-21": [
+        { "name": "Pia Dandiya", "is_impact": true, "raised": 1250000, "spent": 145000, "coh": 1105000, "updated": "3/31/26" },
+        { "name": "Brian Mast (Incumbent)", "is_impact": false, "raised": 3850200, "spent": 1400000, "coh": 2450200, "updated": "3/31/26" },
+        { "name": "Thomas Witkop", "is_impact": false, "raised": 412000, "spent": 185000, "coh": 227000, "updated": "3/31/26" }
     ],
     "NY-07": [
         { "name": "Vichal Kumar", "is_impact": true, "raised": 114817, "spent": 54043, "coh": 60774, "updated": "3/31/26" },
@@ -23,11 +23,6 @@
     ],
     "NJ-07": [
         { "name": "Tina Shah", "is_impact": true, "raised": 850000, "spent": 315000, "coh": 535000, "updated": "3/31/26" },
-        { "name": "Rebecca Bennett", "is_impact": false, "raised": 2656002, "spent": 1229607, "coh": 1426395, "updated": "3/31/26" },
-        { "name": "Michael Roth", "is_impact": false, "raised": 1165954, "spent": 439668, "coh": 726286, "updated": "3/31/26" }
-    ],
-    "FL-21": [
-        { "name": "Pia Dandiya", "is_impact": true, "raised": 1250000, "spent": 145000, "coh": 1105000, "updated": "3/31/26" },
-        { "name": "Alex Vindman", "is_impact": false, "raised": 8188391, "spent": 1748269, "coh": 6440222, "updated": "3/31/26" }
+        { "name": "Rebecca Bennett", "is_impact": false, "raised": 2656002, "spent": 1229607, "coh": 1426395, "updated": "3/31/26" }
     ]
 }
