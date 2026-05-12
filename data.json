@@ -4,62 +4,12 @@
             "name": "Amish Shah",
             "is_impact": true,
             "coh": 0.0
-        },
-        {
-            "name": "Lucio, Daniel Lee",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Feely, Thomas James",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Shah, Amish Dr.",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Mccartney, Rick",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Gallego, Derrick",
-            "is_impact": false,
-            "coh": 0.0
         }
     ],
     "NJ-07": [
         {
             "name": "Tina Shah",
             "is_impact": true,
-            "coh": 0.0
-        },
-        {
-            "name": "Sooy, Sara",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Bennett, Rebecca",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Vartan, Gregory Iii",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Varela, Brian",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Santos, Felipe",
-            "is_impact": false,
             "coh": 0.0
         }
     ],
@@ -68,31 +18,6 @@
             "name": "Jay Vaingankar",
             "is_impact": true,
             "coh": 0.0
-        },
-        {
-            "name": "Vaingankar, Jay",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Zaborney, Andrew Joseph",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Anderson, Michael",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Thompson, Iziah",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Servance, Squire",
-            "is_impact": false,
-            "coh": 0.0
         }
     ],
     "FL-21": [
@@ -100,62 +25,12 @@
             "name": "Pia Dandiya",
             "is_impact": true,
             "coh": 0.0
-        },
-        {
-            "name": "Ott, Robert Dr.",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Oconnor, Edward F Mr.",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Martin, James",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Cooke, Alexander R",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Taylor, Bernard",
-            "is_impact": false,
-            "coh": 0.0
         }
     ],
     "NY-07": [
         {
             "name": "Vichal Kumar",
             "is_impact": true,
-            "coh": 0.0
-        },
-        {
-            "name": "Hutchison, Evan Hale",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Campagna, Alexander",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Martinez, Sydney",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Carbajal, Steven William",
-            "is_impact": false,
-            "coh": 0.0
-        },
-        {
-            "name": "Osorio, Edwin",
-            "is_impact": false,
             "coh": 0.0
         }
     ]
