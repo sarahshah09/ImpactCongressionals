@@ -4,70 +4,52 @@ import os
 
 API_KEY = os.getenv('FEC_API_KEY')
 
-# Updated 2026 Official IDs
+# Official 2026 Committee IDs (These are the actual bank accounts)
 TARGET_RACES = [
-    {"state": "AZ", "dist": "01", "name": "Amish Shah", "id": "H4AZ01221"},
-    {"state": "NJ", "dist": "07", "name": "Tina Shah", "id": "H4NJ07191"},
-    {"state": "NJ", "dist": "12", "name": "Jay Vaingankar", "id": "H4NJ12167"},
-    {"state": "FL", "dist": "21", "name": "Pia Dandiya", "id": "H6FL21151"},
-    {"state": "NY", "dist": "07", "name": "Vichal Kumar", "id": "H4NY07204"}
+    {"state": "AZ-01", "name": "Amish Shah", "cmte": "C00836510"},
+    {"state": "NJ-07", "name": "Tina Shah", "cmte": "C00851832"},
+    {"state": "NJ-12", "name": "Jay Vaingankar", "cmte": "C00845552"},
+    {"state": "FL-21", "name": "Pia Dandiya", "cmte": "C00854422"},
+    {"state": "NY-07", "name": "Vichal Kumar", "cmte": "C00850230"}
 ]
 
 def fetch_data():
     all_data = {}
     for race in TARGET_RACES:
-        print(f"--- Processing {race['name']} ---")
+        print(f"Fetching {race['name']}...")
         
-        # Step A: Get the Specific Candidate Financials
-        # Using the /candidate/{id}/totals endpoint is the most accurate
-        url = f"https://api.open.fec.gov/v1/candidate/{race['id']}/totals/"
+        # Pull totals directly from the committee's filing
+        url = f"https://api.open.fec.gov/v1/committee/{race['cmte']}/totals/"
         params = {'api_key': API_KEY, 'cycle': 2026}
         
         try:
             r = requests.get(url, params=params).json()
-            impact_results = r.get('results', [])
+            results = r.get('results', [])
             
-            # If the ID search is empty, the FEC hasn't indexed them yet
-            if not impact_results:
-                print(f"Warning: No data yet for ID {race['id']}")
-                coh = 0
-            else:
-                coh = impact_results[0].get('last_cash_on_hand_end_period', 0) or 0
+            # If the 2026 cycle is empty, we check the latest available
+            if not results:
+                print(f"No 2026 data for {race['name']}, checking 2024 leftover...")
+                params['cycle'] = 2024
+                r = requests.get(url, params=params).json()
+                results = r.get('results', [])
+
+            coh = 0
+            if results:
+                coh = results[0].get('last_cash_on_hand_end_period', 0) or 0
+
+            # For now, let's just get our candidate on the board
+            all_data[race['state']] = [{
+                "name": race['name'],
+                "is_impact": True,
+                "coh": float(coh)
+            }]
             
-            # Step B: Get ALL candidates in the district for comparison
-            dist_url = "https://api.open.fec.gov/v1/candidates/totals/"
-            dist_params = {
-                'api_key': API_KEY, 'cycle': 2026, 
-                'state': race['state'], 'district': race['dist'],
-                'election_full': True
-            }
-            dist_r = requests.get(dist_url, params=dist_params).json()
-            dist_results = dist_r.get('results', [])
-
-            processed = []
-            # Add our Impact Candidate
-            processed.append({"name": race['name'], "is_impact": True, "coh": float(coh)})
-
-            # Add Rivals
-            for cand in dist_results:
-                if cand.get('candidate_id') != race['id']:
-                    processed.append({
-                        "name": cand.get('name', 'Unknown Candidate').title(),
-                        "is_impact": False,
-                        "coh": float(cand.get('last_cash_on_hand_end_period', 0) or 0)
-                    })
-            
-            # Sort by money so the biggest rival is at the top
-            processed.sort(key=lambda x: x['coh'], reverse=True)
-            all_data[f"{race['state']}-{race['dist']}"] = processed[:6]
-            print(f"Successfully added {len(processed)} candidates.")
-
         except Exception as e:
-            print(f"System Error for {race['state']}: {e}")
+            print(f"Error: {e}")
 
     with open('data.json', 'w') as f:
         json.dump(all_data, f, indent=4)
-    print("FINISHED: data.json is ready.")
+    print("Done!")
 
 if __name__ == "__main__":
     fetch_data()
