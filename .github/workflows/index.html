@@ -10,7 +10,7 @@
 
     <script>
         // This fetches the data.json file created by your scraper
-        fetch('./data.json')
+        fetch('/data.json')
             .then(res => res.json())
             .then(data => {
                 const container = document.getElementById('dashboard');
