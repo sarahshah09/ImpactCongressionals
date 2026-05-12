@@ -4,64 +4,62 @@ import os
 
 API_KEY = os.getenv('FEC_API_KEY')
 
-# Core 5 Districts - Using just Last Names for maximum matching
+# Official IA Impact IDs for 2026
 TARGET_RACES = [
-    {"state": "AZ", "dist": "01", "impact": "Shah"},
-    {"state": "NJ", "dist": "07", "impact": "Shah"},
-    {"state": "NJ", "dist": "12", "impact": "Vaingankar"},
-    {"state": "FL", "dist": "21", "impact": "Dandiya"},
-    {"state": "NY", "dist": "07", "impact": "Kumar"}
+    {"state": "AZ", "dist": "01", "name": "Amish Shah", "id": "H4AZ01221"},
+    {"state": "NJ", "dist": "07", "name": "Tina Shah", "id": "H4NJ07191"},
+    {"state": "NJ", "dist": "12", "name": "Jay Vaingankar", "id": "H4NJ12167"},
+    {"state": "FL", "dist": "21", "name": "Pia Dandiya", "id": "H6FL21151"},
+    {"state": "NY", "dist": "07", "name": "Vichal Kumar", "id": "H4NY07204"}
 ]
 
 def fetch_data():
     all_data = {}
     for race in TARGET_RACES:
-        print(f"Searching {race['state']}-{race['dist']}...")
+        print(f"Syncing {race['name']} ({race['state']}-{race['dist']})...")
         
-        # We use the 'candidates' search which is more reliable for finding people
-        url = "https://api.open.fec.gov/v1/candidates/search/"
-        params = {
-            'api_key': API_KEY,
-            'cycle': 2026,
-            'state': race['state'],
-            'district': race['dist'],
-            'office': 'H', # House
-            'is_active_candidate': True,
-            'per_page': 50
-        }
+        # Step 1: Get the Endorsed Candidate's Data
+        url = f"https://api.open.fec.gov/v1/candidate/{race['id']}/totals/"
+        params = {'api_key': API_KEY, 'cycle': 2026}
         
         try:
-            r = requests.get(url, params=params, timeout=15)
-            results = r.json().get('results', [])
+            r = requests.get(url, params=params).json()
+            impact_stats = r.get('results', [{}])[0]
             
+            # Step 2: Get the Rivals in that same district
+            rival_url = "https://api.open.fec.gov/v1/candidates/totals/"
+            rival_params = {
+                'api_key': API_KEY, 'cycle': 2026, 
+                'state': race['state'], 'district': race['dist'],
+                'election_full': True, 'sort': '-cash_on_hand_end_period'
+            }
+            rival_r = requests.get(rival_url, params=rival_params).json()
+            rival_results = rival_r.get('results', [])
+
             processed = []
-            for cand in results:
-                name = cand.get('name', 'Unknown')
-                # Check for Impact candidate by last name
-                is_impact = race['impact'].upper() in name.upper()
-                
-                # Note: 'totals' inside candidate search is often more populated
-                # We prioritize 'last_cash_on_hand_end_period'
-                total_data = cand.get('principal_committees', [{}])[0]
-                
-                processed.append({
-                    "name": name,
-                    "is_impact": is_impact,
-                    "coh": cand.get('cash_on_hand', 0) or 0,
-                    "receipts": cand.get('total_receipts', 0) or 0
-                })
+            # Add Endorsed Candidate first
+            processed.append({
+                "name": race['name'],
+                "is_impact": True,
+                "coh": impact_stats.get('last_cash_on_hand_end_period', 0) or 0
+            })
+
+            # Add Top 5 Rivals (excluding our candidate)
+            for cand in rival_results:
+                if cand.get('candidate_id') != race['id']:
+                    processed.append({
+                        "name": cand.get('name', 'Unknown'),
+                        "is_impact": False,
+                        "coh": cand.get('last_cash_on_hand_end_period', 0) or 0
+                    })
             
-            # Sort by who has the most money so rivals appear at the top
-            processed.sort(key=lambda x: x['coh'], reverse=True)
-            all_data[f"{race['state']}-{race['dist']}"] = processed[:8]
+            all_data[f"{race['state']}-{race['dist']}"] = processed[:6]
             
         except Exception as e:
-            print(f"Error in {race['state']}: {e}")
-            all_data[f"{race['state']}-{race['dist']}"] = []
+            print(f"Error: {e}")
 
     with open('data.json', 'w') as f:
         json.dump(all_data, f, indent=4)
-    print("Update Complete.")
 
 if __name__ == "__main__":
     fetch_data()
