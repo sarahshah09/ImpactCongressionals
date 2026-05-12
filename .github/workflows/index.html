@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Impact 5 Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <h1 class="text-3xl font-bold mb-8">IA Impact 5: Primary Fundraising</h1>
+    <div id="dashboard" class="grid gap-6 md:grid-cols-2">Loading data...</div>
+
+    <script>
+        // This fetches the data.json file created by your scraper
+        fetch('./data.json')
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('dashboard');
+                container.innerHTML = '';
+                
+                Object.keys(data).forEach(race => {
+                    const candidates = data[race];
+                    const card = document.createElement('div');
+                    card.className = "bg-white p-6 rounded-lg shadow";
+                    card.innerHTML = `<h2 class="text-xl font-bold border-b pb-2 mb-4">${race}</h2>`;
+                    
+                    candidates.forEach(c => {
+                        card.innerHTML += `
+                            <div class="flex justify-between py-1">
+                                <span>${c.name}</span>
+                                <span class="font-mono">$${c.cash_on_hand_end_period.toLocaleString()}</span>
+                            </div>`;
+                    });
+                    container.appendChild(card);
+                });
+            });
+    </script>
+</body>
+</html>
