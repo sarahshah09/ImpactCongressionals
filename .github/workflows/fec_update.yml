@@ -1,0 +1,34 @@
+name: Nightly FEC Update
+
+on:
+  schedule:
+    - cron: '0 4 * * *' # Runs at 4:00 AM UTC (Midnight EST)
+  workflow_dispatch: # Allows you to run it manually for testing
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install requests
+
+      - name: Run FEC Scraper
+        env:
+          FEC_API_KEY: ${{ secrets.FEC_API_KEY }}
+        run: python scraper.py
+
+      - name: Commit and Push Data
+        run: |
+          git config --global user.name "FEC-Bot"
+          git config --global user.email "bot@yourdomain.com"
+          git add data.json
+          git commit -m "Update FEC fundraising totals: $(date)"
+          git push
