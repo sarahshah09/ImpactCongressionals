@@ -12,18 +12,26 @@ async function loadData() {
             let html = `<h2>District: ${district}</h2>`;
             
             candidates.forEach(cand => {
-                // Calculation: What % of money raised has been spent?
                 const burnRate = ((cand.spent / cand.raised) * 100).toFixed(1);
-                // Scaled for a $5M goal bar
                 const cohWidth = Math.min((cand.coh / 5000000) * 100, 100);
+
+                // LOGIC FIX: Determine the correct badge label
+                let badgeText = "Primary Rival";
+                let badgeClass = "badge-rival";
+
+                if (cand.is_impact) {
+                    badgeText = "Impact Endorsed";
+                    badgeClass = "badge-impact";
+                } else if (cand.name.includes("(Incumbent)")) {
+                    badgeText = "General Opponent (Incumbent)";
+                    badgeClass = "badge-rival"; // Keeps the red color for opponents
+                }
 
                 html += `
                     <div class="candidate-block">
                         <div class="header-row">
                             <span class="name">${cand.name} ${cand.is_impact ? '⭐' : ''}</span>
-                            <span class="badge ${cand.is_impact ? 'badge-impact' : 'badge-rival'}">
-                                ${cand.is_impact ? 'Impact Target' : 'Primary Challenger'}
-                            </span>
+                            <span class="badge ${badgeClass}">${badgeText}</span>
                         </div>
                         
                         <div class="metrics-grid">
@@ -60,8 +68,6 @@ async function loadData() {
         }
     } catch (e) {
         console.error(e);
-        document.getElementById('dashboard').innerHTML = "Error connecting to data feed.";
     }
 }
-
 loadData();
