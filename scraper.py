@@ -2,9 +2,10 @@ import requests
 import json
 import os
 
+# Get key from GitHub Secrets
 API_KEY = os.getenv('FEC_API_KEY')
 
-# Updated list with exact district matching
+# Impact 5 Configuration - Use strings for district to ensure '07' stays '07'
 TARGET_RACES = [
     {"state": "AZ", "dist": "01", "impact": "Shah"},
     {"state": "NJ", "dist": "07", "impact": "Shah"},
@@ -17,7 +18,7 @@ def fetch_data():
     all_data = {}
     for race in TARGET_RACES:
         print(f"Syncing {race['state']}-{race['dist']}...")
-        # This endpoint gets the financial totals for all candidates in that district
+        # Endpoint for financial totals
         url = "https://api.open.fec.gov/v1/candidates/totals/"
         params = {
             'api_key': API_KEY,
@@ -29,30 +30,35 @@ def fetch_data():
         }
         
         try:
-            response = requests.get(url, params=params).json()
-            results = response.get('results', [])
+            response = requests.get(url, params=params)
+            response.raise_for_status() # This prevents "Exit Code 1" by catching errors early
+            data = response.json()
+            results = data.get('results', [])
             
             processed = []
             for cand in results:
-                # Logic: Is this an IA Impact candidate?
-                is_impact = race['impact'].upper() in cand['name'].upper()
+                # Name matching logic
+                is_impact = race['impact'].upper() in cand.get('name', '').upper()
                 
                 processed.append({
-                    "name": cand['name'],
+                    "name": cand.get('name', 'Unknown'),
                     "is_impact": is_impact,
-                    "coh": cand['last_cash_on_hand_end_period'] or 0,
-                    "receipts": cand['receipts'] or 0,
-                    "updated": cand['coverage_end_date']
+                    "coh": cand.get('last_cash_on_hand_end_period') or 0,
+                    "receipts": cand.get('receipts') or 0,
+                    "updated": cand.get('coverage_end_date', 'N/A')
                 })
             
-            # We only keep the top 6 total to keep the dashboard clean
+            # Save the top 6 (Impact candidate + 5 rivals)
             all_data[f"{race['state']}-{race['dist']}"] = processed[:6]
             
         except Exception as e:
-            print(f"Error in {race['state']}: {e}")
-            
+            print(f"Error in {race['state']}-{race['dist']}: {e}")
+            # Ensure the race key exists even if the fetch failed
+            all_data[f"{race['state']}-{race['dist']}"] = []
+
     with open('data.json', 'w') as f:
         json.dump(all_data, f, indent=4)
+    print("Successfully wrote data.json")
 
 if __name__ == "__main__":
     fetch_data()
