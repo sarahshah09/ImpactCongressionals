@@ -19,5 +19,12 @@
             "is_impact": true,
             "coh": 0.0
         }
+    ],
+    "NY-07": [
+        {
+            "name": "Vichal Kumar",
+            "is_impact": true,
+            "coh": 0.0
+        }
     ]
 }
